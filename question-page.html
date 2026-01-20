@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Game</title>
+    <link rel="stylesheet" href="question-style.css">
+</head>
+
+<body>
+
+    <!-- SÂN CHƠI TOÀN MÀN HÌNH -->
+    <div id="playfield"></div>
+
+    <div class="container-wrapper">
+        <div class="header">
+            <img src="icon.png" alt="Icon" class="icon">
+            <h1 id="questionText"></h1>
+        </div>
+
+        <div class="buttons-container">
+            <button id="yesBtn" class="btn btn-yes"></button>
+            <button id="noBtn" class="btn btn-no"></button>
+        </div>
+
+        <div id="result" class="result hidden"></div>
+
+        <!-- ===== SUMMARY MODAL ===== -->
+        
+
+    </div>
+    <div id="summaryModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+
+            <div class="modal-content">
+                <h2>🎉 Tổng kết câu trả lời</h2>
+
+                <div id="summaryContent" class="summary-content"></div>
+
+                <button id="closeSummaryBtn" class="btn btn-yes">
+                    Close
+                </button>
+            </div>
+        </div>
+
+    <script src="question-config.js"></script>
+    <script src="question-script.js"></script>
+</body>
+
+</html>
