@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Ball Picker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="icon.png" alt="Icon" class="icon">
+            <h1>🎱 Random Ball Picker</h1>
+        </div>
+        
+        <div class="ball-container" id="ballContainer"></div>
+        
+        <div class="result-area">
+            <div id="result" class="result">Nhấn nút để bắt đầu</div>
+        </div>
+        
+        <button id="randomBtn" class="random-btn">
+            🎲 Lắc bóng!
+        </button>
+        
+        <div class="history">
+            <h3>Lịch sử:</h3>
+            <ul class="history-list" id="historyList"></ul>
+        </div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
