@@ -16,53 +16,33 @@ let currentIndex = 0;
 
 // ===== LOAD QUESTION =====
 function loadQuestion() {
-  const q = questions[currentIndex];
-  questionText.textContent = q.text;
-  yesBtn.textContent = q.btnYesText;
-  noBtn.textContent = q.btnNoText;
+    const q = questions[currentIndex];
+    questionText.textContent = q.text;
 
-  resultDiv.classList.add("hidden");
-  yesBtn.disabled = false;
-  noBtn.disabled = false;
+    yesBtn.textContent = q.btnYesText;
+    noBtn.textContent = q.btnNoText;
 
-  resetButtons();
-  applyRunningLogic(q);
+    resultDiv.classList.add('hidden');
+    yesBtn.disabled = false;
+    noBtn.disabled = false;
+
+    resetButtons();
+    applyRunningLogic(q);
 }
 
 // ===== RESET =====
 function resetButtons() {
-  [yesBtn, noBtn].forEach((btn) => {
-    btn.classList.remove("running");
-    btn.style.left = "";
-    btn.style.top = "";
-    buttonHome.appendChild(btn);
-  });
+    [yesBtn, noBtn].forEach(btn => {
+        btn.classList.remove('running');
+        btn.style.left = '';
+        btn.style.top = '';
+        btn.style.width = '';
+        btn.style.height = '';
+        buttonHome.appendChild(btn);
+    });
 }
 
 // ===== ANSWER =====
-// function handleAnswer(isYes) {
-//   const q = questions[currentIndex];
-//   resultDiv.textContent = isYes ? q.yesResultText : q.noResultText;
-//   answers.push({
-//     question: questions[currentIndex].text,
-//     answer: isYes ? q.yesResultText : q.noResultText,
-//   });
-
-//   resultDiv.classList.remove("hidden");
-//   yesBtn.disabled = true;
-//   noBtn.disabled = true;
-
-//   setTimeout(() => {
-//     currentIndex++;
-
-//     if (currentIndex >= questions.length) {
-//       showSummary();
-//     } else {
-//       loadQuestion();
-//     }
-//   }, 1200);
-// }
-
 function handleAnswer(isYes) {
     const q = questions[currentIndex];
     answers.push({
@@ -80,7 +60,6 @@ function handleAnswer(isYes) {
 
     setTimeout(() => {
         currentIndex++;
-
         if (currentIndex >= questions.length) {
             showSummary();
         } else {
@@ -90,59 +69,59 @@ function handleAnswer(isYes) {
 }
 
 
+
 // ===== RUN LOGIC =====
-function applyRunningLogic(question) {
-  const yesRun = question.runningButtons.includes("yes");
-  const noRun = question.runningButtons.includes("no");
+function applyRunningLogic(q) {
+    const yesRun = q.runningButtons.includes("yes");
+    const noRun  = q.runningButtons.includes("no");
 
-  yesBtn.onclick = !yesRun ? () => handleAnswer(true) : null;
-  noBtn.onclick = !noRun ? () => handleAnswer(false) : null;
+    yesBtn.onclick = !yesRun ? () => handleAnswer(true) : null;
+    noBtn.onclick  = !noRun  ? () => handleAnswer(false) : null;
 
-  document.onmousemove = (e) => {
-    if (yesRun) handleRun(e, yesBtn);
-    if (noRun) handleRun(e, noBtn);
-  };
+    document.onmousemove = e => {
+        if (yesRun) handleRun(yesBtn, e.clientX, e.clientY);
+        if (noRun)  handleRun(noBtn,  e.clientX, e.clientY);
+    };
+
+    document.ontouchstart = e => {
+        const t = e.touches[0];
+        if (yesRun) handleRun(yesBtn, t.clientX, t.clientY);
+        if (noRun)  handleRun(noBtn,  t.clientX, t.clientY);
+        e.preventDefault();
+    };
 }
 
 // ===== HANDLE RUN =====
-function handleRun(e, btn) {
-  if (btn.disabled) return;
+function handleRun(btn, x, y) {
+    if (btn.disabled) return;
 
-  const rect = btn.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top  + rect.height / 2;
 
-  const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-
-  if (dist < QUESTION_CONFIG.buttonBehavior.triggerDistance) {
-    if (!btn.classList.contains("running")) {
-      btn.classList.add("running");
-
-      /* 🔒 KHÓA SIZE */
-      btn.style.width = rect.width + "px";
-      btn.style.height = rect.height + "px";
-
-      playfield.appendChild(btn);
-      btn.style.left = rect.left + "px";
-      btn.style.top = rect.top + "px";
+    if (Math.hypot(x - cx, y - cy) < QUESTION_CONFIG.buttonBehavior.triggerDistance) {
+        if (!btn.classList.contains('running')) {
+            btn.classList.add('running');
+            btn.style.width = rect.width + 'px';
+            btn.style.height = rect.height + 'px';
+            playfield.appendChild(btn);
+            btn.style.left = rect.left + 'px';
+            btn.style.top  = rect.top  + 'px';
+        }
+        moveButton(btn);
     }
-    moveButton(btn);
-  }
 }
 
 // ===== MOVE FULL VIEWPORT =====
 function moveButton(btn) {
-  const SAFE = 24;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const rect = btn.getBoundingClientRect();
-
-  const x = Math.random() * (vw - rect.width - SAFE * 2) + SAFE;
-  const y = Math.random() * (vh - rect.height - SAFE * 2) + SAFE;
-
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
+    const SAFE = 24;
+    const rect = btn.getBoundingClientRect();
+    const x = Math.random() * (innerWidth  - rect.width  - SAFE * 2) + SAFE;
+    const y = Math.random() * (innerHeight - rect.height - SAFE * 2) + SAFE;
+    btn.style.left = x + 'px';
+    btn.style.top  = y + 'px';
 }
+
 
 // ===== INITIALIZE =====
 function showSummary() {
@@ -172,3 +151,16 @@ closeSummaryBtn.onclick = () => {
 
     loadQuestion();
 };
+
+document.addEventListener(
+    'touchstart',
+    e => {
+        const t = e.touches[0];
+        if (yesRun) handleRun(yesBtn, t.clientX, t.clientY);
+        if (noRun)  handleRun(noBtn,  t.clientX, t.clientY);
+
+        e.preventDefault();   // ❗ GIỜ MỚI CÓ TÁC DỤNG
+        e.stopPropagation();
+    },
+    { passive: false }
+);
