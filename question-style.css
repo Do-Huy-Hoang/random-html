@@ -88,6 +88,14 @@ h1 {
     transition: transform 0.2s ease;
 }
 
+.btn {
+    -webkit-tap-highlight-color: transparent; /* iOS / Android */
+    -webkit-touch-callout: none;              /* iOS long-press */
+    user-select: none;
+    touch-action: manipulation;
+}
+
+
 .btn:hover:not(.running):not(:disabled) {
     transform: scale(1.06);
 }
@@ -180,4 +188,10 @@ h1 {
     font-size: 16px;
     line-height: 1.6;
 }
+
+.btn:active {
+    transform: none !important;
+    box-shadow: inherit !important;
+}
+
 
