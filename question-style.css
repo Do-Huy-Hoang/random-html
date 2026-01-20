@@ -89,10 +89,20 @@ h1 {
 }
 
 .btn {
-    -webkit-tap-highlight-color: transparent; /* iOS / Android */
-    -webkit-touch-callout: none;              /* iOS long-press */
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     user-select: none;
-    touch-action: manipulation;
+    touch-action: none;
+}
+
+/* ❗ CHẶN ACTIVE / FOCUS HOÀN TOÀN */
+.btn:active,
+.btn:focus,
+.btn:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 
@@ -188,10 +198,4 @@ h1 {
     font-size: 16px;
     line-height: 1.6;
 }
-
-.btn:active {
-    transform: none !important;
-    box-shadow: inherit !important;
-}
-
 
